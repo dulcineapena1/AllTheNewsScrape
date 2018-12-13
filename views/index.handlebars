@@ -1,0 +1,33 @@
+{{!-- <h1>{{losarticulos}}</h1> --}}
+
+
+<ul>
+  {{#each losarticulos}}
+  	<li>
+
+        <p>
+          {{this.title}}
+          <button id="savearticle">Save</button>
+
+        </p>
+        
+
+  	</li>
+  {{/each}}
+</ul>
+
+{{!-- 
+<ul>
+  {{#each losarticulos}}
+  	<li>
+  	<p><span class="label">ID:</span> {{this.id}}</p>
+      <p><span class="label">Quote:</span> {{this.quote}}</p>
+      <p><span class="label">Author:</span> {{this.author}}</p>
+
+      <button data-id="{{this.id}}" class="delquote">Delete</button>
+
+      <a href="/{{this.id}}">Update this quote</a>
+  	</li>
+  {{/each}}
+</ul> --}}
+

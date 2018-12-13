@@ -1,0 +1,68 @@
+<ul>
+  {{#each lossaved}}
+  	<li>
+        <p>
+          {{this.title}}
+          <button id="addnote" data-idmongo="{{this.id}}" >Add a note</button> 
+        </p>
+            
+                <!-- Inicio Modal notas -->
+                <div class="modal " data-baseform="{{this.id}}" id="myModal" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Add a note  {{this.title}}</h4>
+                            </div>
+                           <!-- Notas añadidas -->
+                            <div id="notasguardadas" data-notasguardadas="{{this.id}}">
+
+                            </div>
+
+                            <!-- Formulario de notas -->
+                            <div id="div-form-nota" class="modal-body">
+                              
+                              <form id="form-nota">
+                                  <div class="form-group">
+                                    <label for="llenar-nota">note</label>
+                                    <input id="llenar-nota" data-llenarnota="{{this.id}}"  class="form-control"  placeholder="nota">
+                                  </div>
+                              </form>
+
+                              <div class="modal-footer">
+                                  <button id="boton-registro" data-idmongoForm="{{this.id}}" type="submit" class="btn btn-default">Save</button>
+                                  <button id="cancelar-llenado-nota" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                              </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                 <!-- Fin Modal notas -->
+
+
+
+
+
+
+
+
+
+        
+  	</li>
+
+
+
+
+
+
+  {{/each}}
+</ul>
+
+
+
+
+
+
+   
