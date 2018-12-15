@@ -1,33 +1,24 @@
-{{!-- <h1>{{losarticulos}}</h1> --}}
+{{!-- Header --}}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="navbar-nav">
+      <a class="nav-item nav-link " id="irAScrape" href="/scrape" target="_blank">¡Show me the news!</a>
+
+      <a class="nav-item nav-link " href="/saved">Go to Saved Articles </a>
+  </div>
+</nav>
+
+<img src="https://www.clicktechtips.com/wp-content/uploads/2017/04/best-news-apps-for-android-users-768x278.jpg">
 
 
-<ul>
+{{!-- Aquí aparecen todos los artículos de scraping. Estos artículos no estan guardados en MongoDB, es sólo scraping --}}
+<ul class="list-group">
   {{#each losarticulos}}
-  	<li>
-
+  	<li class="list-group-item">
         <p>
           {{this.title}}
           <button id="savearticle">Save</button>
-
         </p>
-        
-
   	</li>
   {{/each}}
 </ul>
-
-{{!-- 
-<ul>
-  {{#each losarticulos}}
-  	<li>
-  	<p><span class="label">ID:</span> {{this.id}}</p>
-      <p><span class="label">Quote:</span> {{this.quote}}</p>
-      <p><span class="label">Author:</span> {{this.author}}</p>
-
-      <button data-id="{{this.id}}" class="delquote">Delete</button>
-
-      <a href="/{{this.id}}">Update this quote</a>
-  	</li>
-  {{/each}}
-</ul> --}}
 

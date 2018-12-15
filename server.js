@@ -49,10 +49,11 @@ mongoose.connect("mongodb://localhost/newsScrape", { useNewUrlParser: true });
 
 //------------------------------- Routes -----------------------------
 
-////////////////// HTML ROUTES //////////-----------------------------
+/////////////////////////////// HTML ROUTES //////////----------------
 var datos=[] 
 
 app.get("/", function(req, res) {
+  console.log("passed data",datos);
   res.render("index", {losarticulos: datos}); //Renderiza el index.handlebars
 });
 
@@ -67,7 +68,7 @@ app.get("/saved", function(req, res) {
     });
 });
 
-////////////////// API ROUTES //////////-----------------------------
+/////////////////////////////// API ROUTES //////////-------------------
 
 // Ruta para realizar un scrape de un sitio
 // Esto es necesario para obtener los datos, correr esta ruta
@@ -76,8 +77,8 @@ app.get("/scrape", function(req, res) {
   axios.get("https://medium.com/topic/popular").then(function(response) {
     // Then, we load that into cheerio and save it to $ for a shorthand selector
     var $ = cheerio.load(response.data);
-    // Now, we grab every h2 within an article tag, and do the following:
-    $("section.fd.fe.s h3").each(function(i, element) {
+    // Now, we grab every h3 within an section tag, and do the following:
+    $("section.m.n.o.fl.q.c h3").each(function(i, element) {
       // Save an empty result object
       var result = {};
       // Add the text and href of every link, and save them as properties of the result object
@@ -88,13 +89,19 @@ app.get("/scrape", function(req, res) {
         .children("a")
         .attr("href");
       
-      // Le mando la data de aquí obtenida a una variable externa para poderla leer en el render handlebars
-      datos.push(result);
+      //Este if limita el número de noticias que se mostrarán y evita que salgan repetidas otra vez al hacer el trigger del scrape
+      if (datos.length <=9){
+        // Le mando la data de aquí obtenida a una variable externa para poderla leer en el render handlebars
+        datos.push(result);
+      }     
     });
-    // If we were able to successfully scrape and save an Article, send a message to the client
-    res.send("Scrape Complete");
-  })
+    // If we were able to successfully scrape Articles, redirect to the main site where then you will see all the scraped articles
+    res.redirect("/");
+  }).catch(function(err) {
+    res.json(err);
+  });
 });
+
 
 
 
@@ -127,6 +134,7 @@ app.get("/articles", function(req, res) {
 // Route for saving/updating an Article's associated Note
 // Aquí creas  una nota y la pones en su Article con su id
 // El :id es el del artículo
+// El $push avienta a un array los datos con determinada criteria. Si fuera $set, sobreescribiría
 app.post("/articles/:id", function(req, res) {
   // save the new note that gets posted to the Notes collection
   // then find an article from the req.params.id
@@ -162,112 +170,47 @@ app.get("/articles/:id", function(req, res) {
       });
 });
 
-//path:"note", select:"note.thenote", options: {limit:5} 
+
+// Obtener las notas por id nota
+app.get("/notas/:id", function(req, res) {
+  db.Note.findOne({ _id: req.params.id  })
+      .then(function(dbNotas) {
+        console.log("SOLO notas",dbNotas)
+        res.json(dbNotas);
+      })
+      .catch(function(err) {
+        res.json(err);
+      });
+});
 
 
+// Borrar nota
+// Borra en la collection nota, una nota, y luego en return actualiza en la collection articles ese artículo para borrarle la nota que tenía asociada adentro
+// El $pull lo que hace es borrar todos los elementos que coincidan con una criteria
+app.delete("/notas/:idnota/:idarticulo", function(req, res) {
+  db.Note.deleteOne({ _id: req.params.idnota })
+  .then(function() {                                             
+    return db.Article.findOneAndUpdate({ _id: req.params.idarticulo }, {$pull: {note:req.params.idnota}}, { new: true });
+  })
+  .then(function(dbcompleto) {
+    res.json(dbcompleto);
+  })
+  .catch(function(err) {
+    res.json(err);
+  });
+});
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// app.get("/", function(req, res) {
-//   // db.Article.find(function(dbArticle) {
-//   //   var hbsObject = {
-//   //     losarticulos: dbArticle
-//   //   };
-//   //   console.log("esto es render handle",hbsObject);
-//   //   res.render("index", hbsObject);
-//   // });
-//   db.Article.find({})
-//   .then(function(dbArticle) {
-//     // If any article are found, send them to the client
-//     // res.json(dbArticle);
-//     console.log("renderizando handlebars");
-//     res.render("index", {losarticulos: dbArticle});
-//   })
-//   .catch(function(err) {
-//     // If an error occurs, send it back to the client
-//     res.json(err);
-//   });
-
-// });
-
-
-
-// Obtenemos la información del sitio
-// A GET route for scraping the website
-// app.get("/scrape", function(req, res) {
-//   // First, we grab the body of the html with axios
-//   axios.get("https://medium.com/topic/popular").then(function(response) {
-//     // Then, we load that into cheerio and save it to $ for a shorthand selector
-//     var $ = cheerio.load(response.data);
-
-//     // Now, we grab every h2 within an article tag, and do the following:
-//     $("section.fd.fe.s h3").each(function(i, element) {
-//       // Save an empty result object
-//       var result = {};
-
-//       // Add the text and href of every link, and save them as properties of the result object
-//       result.title = $(this)
-//         .children("a")
-//         .text();
-//       result.link = $(this)
-//         .children("a")
-//         .attr("href");
-
-//       // Create a new Article using the `result` object built from scraping
-//       db.Article.create(result)
-//         .then(function(dbArticle) {
-//           // View the added result in the console
-//           console.log(dbArticle);
-//         })
-//         .catch(function(err) {
-//           // If an error occurred, send it to the client
-//           return res.json(err);
-//         });
-//     });
-
-//     // If we were able to successfully scrape and save an Article, send a message to the client
-//     res.send("Scrape Complete");
-//   });
-// });
-
-
-
-
-
-
-
+// Borrar artículo 
+app.delete("/articles/:id", function(req, res) {
+  db.Article.deleteOne({ _id: req.params.id })
+  .then(function(dbterminado) {
+    res.json(dbterminado);
+  })
+  .catch(function(err) {
+    res.json(err);
+  });
+});
 
 
 

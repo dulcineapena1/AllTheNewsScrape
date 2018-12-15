@@ -1,9 +1,20 @@
-<ul>
+{{!-- Header --}}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="navbar-nav">
+      <a class="nav-item nav-link active" href="/">Go Back To All News <span class="sr-only">(current)</span></a>
+  </div>
+</nav>
+
+
+
+{{!-- Information--}}
+<ul class="list-group" >
   {{#each lossaved}}
-  	<li>
+  	<li class="list-group-item">
         <p>
           {{this.title}}
           <button id="addnote" data-idmongo="{{this.id}}" >Add a note</button> 
+          <button id="deletearticle"  data-iddeletearticle="{{this.id}}" >X</button> 
         </p>
             
                 <!-- Inicio Modal notas -->
@@ -12,7 +23,7 @@
                         <!-- Modal content-->
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title">Add a note  {{this.title}}</h4>
+                                <h4 class="modal-title">Add a note to {{this.title}}</h4>
                             </div>
                            <!-- Notas añadidas -->
                             <div id="notasguardadas" data-notasguardadas="{{this.id}}">
@@ -24,8 +35,8 @@
                               
                               <form id="form-nota">
                                   <div class="form-group">
-                                    <label for="llenar-nota">note</label>
-                                    <input id="llenar-nota" data-llenarnota="{{this.id}}"  class="form-control"  placeholder="nota">
+                                    {{!-- <label for="llenar-nota">Writte a note</label> --}}
+                                    <input id="llenar-nota" data-llenarnota="{{this.id}}"  class="form-control"  placeholder="Writte a note">
                                   </div>
                               </form>
 
