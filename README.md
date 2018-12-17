@@ -4,21 +4,25 @@ _Scrape news and choose to save it or delete it on MongoDB. Add and delete notes
 
 ### To start 📋
 
-_Some of this MongoDB especifications might not work in your computer depending on your MongoDB install process. Try to skip step 1 if it didn't work. _
+_You should have installed MongoDB and optional RoboMongo_
 
-_1.- Run MongoDB _
+_1.- Change the database name on server.js file in line 45, to create your own_
 ```
-mongod
+mongodb://localhost/<namehere>
 ```
-_2.- Open a new console and start MongoDB on the repository file_
-```
-mongo
-```
-_3.- Go to the repository file and install all npm dependencies_
+_2.- Go to the repository file and install all npm dependencies_
 ```
 npm install
 ```
-_4.- Start the aplication_
+_3.- Run MongoDB_
+```
+mongod
+```
+_4.- Open a new console and start MongoDB on the repository file_
+```
+mongo
+```
+_5.- Start the aplication_
 ```
 node server.js
 ```
@@ -43,9 +47,13 @@ _Important: [the scraped site](https://medium.com/topic/popular) change their se
 * MongoDB
 * Mongoose
 
+_Aditional dependencies_
+* Axios (to do the http request / this is similar to ajax from jquery)
+* Cheerio (get the html from a site in json format)
+
  ## Heroku Deployed version ✒️
 
-* Wait for it!
+* [Heroku version](https://aqueous-taiga-96072.herokuapp.com/)
 
 ---
 ⌨️ [DulcineaPena1](https://github.com/dulcineapena1) 😊
