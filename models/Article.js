@@ -9,8 +9,8 @@ var Schema = mongoose.Schema;
 var ArticleSchema = new Schema({
   title: {
     type: String,
-    required: true
-    // unique: true
+    required: true,
+    unique: true //impide poner titles duplicados en la base de datos, osea no habrá artículos iguales
   },
  
   // `note` is an object that stores a Note id

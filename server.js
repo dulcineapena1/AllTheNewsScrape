@@ -14,7 +14,7 @@ var cheerio = require("cheerio");
 // Require all models
 var db = require("./models");
 
-var PORT = 3000;
+var PORT = process.env.PORT ||3000;
 
 // Initialize Express
 var app = express();
@@ -42,9 +42,9 @@ app.set("view engine", "handlebars");
 
 // Connect to the Mongo DB 
 //le pones luego de localhost el nombre de la base de datos
-mongoose.connect("mongodb://localhost/newsScrape", { useNewUrlParser: true });
+mongoose.connect("mongodb://heroku_slg1bpgz:eessa6b9l2b7o3rv4jod2m2cef@ds139352.mlab.com:39352/heroku_slg1bpgz", { useNewUrlParser: true });
 
-
+//mongodb://localhost/newsScrape
 
 
 //------------------------------- Routes -----------------------------
