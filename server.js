@@ -44,6 +44,7 @@ app.set("view engine", "handlebars");
 //le pones luego de localhost el nombre de la base de datos
 mongoose.connect("mongodb://heroku_slg1bpgz:eessa6b9l2b7o3rv4jod2m2cef@ds139352.mlab.com:39352/heroku_slg1bpgz", { useNewUrlParser: true });
 
+
 // Datos para conexión local
 //mongodb://localhost/newsScrape
 
@@ -79,7 +80,7 @@ app.get("/scrape", function(req, res) {
     // Then, we load that into cheerio and save it to $ for a shorthand selector
     var $ = cheerio.load(response.data);
     // Now, we grab every h3 within an section tag, and do the following:
-    $("section.m.n.o.fl.q.c h3").each(function(i, element) {
+    $("section.m.n.o.ff.q.c h3").each(function(i, element) {
       // Save an empty result object
       var result = {};
       // Add the text and href of every link, and save them as properties of the result object
